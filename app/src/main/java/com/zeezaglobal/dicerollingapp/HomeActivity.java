@@ -27,8 +27,8 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     private Spinner diceSpinner;
-    private Button rollBtn;
-    private TextView resultTv;
+    private Button rollBtn,rollTwiceBtn;
+    private TextView resultTv,secondResultTv;
     private EditText customEditText;
 
     @Override
@@ -46,23 +46,80 @@ public class HomeActivity extends AppCompatActivity {
         diceList.add("10 side dice");
         diceList.add("12 side dice");
         diceList.add("20 side dice");
-        diceList.add("true 10 sided die");
-        diceList.add("multiple of 10");
+        diceList.add("True 10 sided die");
+        diceList.add("Multiple of 10");
         ArrayAdapter<String> diceAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, diceList);
         diceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         diceSpinner.setAdapter(diceAdapter);
-diceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        customEditText.setText("");
-    }
+        diceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                customEditText.setText("");
+            }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
-});
+            }
+        });
+        rollTwiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (customEditText.getText().toString().equals("")) {
+                    switch (diceSpinner.getSelectedItemPosition()) {
+                        case FOUR_SIDE:
+                            Dice d4 = new Dice(4);
+                            secondResultTv.setText(d4.rollDie() + "");
+                            resultTv.setText(d4.rollDie() + "");
+                            break;
+                        case SIX_SIDE:
+                            Dice d6 = new Dice(6);
+                            secondResultTv.setText(d6.rollDie() + "");
+                            resultTv.setText(d6.rollDie() + "");
+                            break;
+                        case EIGHT_SIDE:
+                            Dice d8 = new Dice(8);
+                            secondResultTv.setText(d8.rollDie() + "");
+                            resultTv.setText(d8.rollDie() + "");
+                            break;
+                        case TEN_SIDE:
+                            Dice d10 = new Dice(10);
+                            secondResultTv.setText(d10.rollDie() + "");
+                            resultTv.setText(d10.rollDie() + "");
+                            break;
+                        case TWELVE_SIDE:
+                            Dice d12 = new Dice(12);
+                            secondResultTv.setText(d12.rollDie() + "");
+                            resultTv.setText(d12.rollDie() + "");
+                            break;
+                        case TWENTY_SIDE:
+                            Dice d20 = new Dice(20);
+                            secondResultTv.setText(d20.rollDie() + "");
+                            resultTv.setText(d20.rollDie() + "");
+                            break;
+                        case TRUE_TEN:
+                            Dice trueDice = new Dice(10);
+                            secondResultTv.setText(trueDice.rollTrueTen() + "");
+                            resultTv.setText(trueDice.rollTrueTen() + "");
+                            break;
+                        case TENS_TEN_SIDED:
+                            Dice tenthDice = new Dice(10);
+                            secondResultTv.setText(tenthDice.rollTenthTen() + "");
+                            resultTv.setText(tenthDice.rollTenthTen() + "");
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + diceSpinner.getSelectedItemPosition());
+                    }
+                } else {
+                    Dice dCustom = new Dice(Integer.parseInt(customEditText.getText().toString()));
+                    sharedPref.storeMyVal(HomeActivity.this, sharedPref.getMyVal(HomeActivity.this) + "," + customEditText.getText().toString());
+
+                    Log.d("shared_value", sharedPref.getMyVal(HomeActivity.this));
+                    resultTv.setText(dCustom.rollDie() + "");
+                }
+            }
+        });
         rollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,11 +161,11 @@ diceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         default:
                             throw new IllegalStateException("Unexpected value: " + diceSpinner.getSelectedItemPosition());
                     }
-                }else{
+                } else {
                     Dice dCustom = new Dice(Integer.parseInt(customEditText.getText().toString()));
-                    sharedPref.storeMyVal(HomeActivity.this, sharedPref.getMyVal(HomeActivity.this)+","+customEditText.getText().toString());
+                    sharedPref.storeMyVal(HomeActivity.this, sharedPref.getMyVal(HomeActivity.this) + "," + customEditText.getText().toString());
 
-                    Log.d("shared_value",   sharedPref.getMyVal(HomeActivity.this) );
+                    Log.d("shared_value", sharedPref.getMyVal(HomeActivity.this));
                     resultTv.setText(dCustom.rollDie() + "");
                 }
             }
@@ -121,6 +178,8 @@ diceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         rollBtn = findViewById(R.id.roll_dice_btn);
         resultTv = findViewById(R.id.result_tv);
         customEditText = findViewById(R.id.custom_side_et);
+        rollTwiceBtn = findViewById(R.id.roll_twice_btn);
+        secondResultTv = findViewById(R.id.second_result);
 
     }
 }
