@@ -30,11 +30,13 @@
 
     <TextView
         android:id="@+id/result_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginTop="32dp"
         android:textColor="@color/black"
         android:textSize="50sp"
+        android:gravity="center"
+        android:background="@drawable/dice_img"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -67,12 +69,14 @@
         app:layout_constraintTop_toBottomOf="@+id/roll_dice_btn" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:textColor="@color/black"
         android:textSize="50sp"
+        android:gravity="center"
         android:textStyle="bold"
         android:id="@+id/second_result"
+        android:background="@drawable/dice_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
