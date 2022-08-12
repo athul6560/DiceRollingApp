@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
         initComponents();
+        onStartUp();
 
         List<String> diceList = new ArrayList<>();
         diceList.add("4 side dice");
@@ -55,7 +56,8 @@ public class HomeActivity extends AppCompatActivity {
         diceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                customEditText.setText("");
+                if(i!=0)
+                customEditText.setText(0+"");
             }
 
             @Override
@@ -66,7 +68,7 @@ public class HomeActivity extends AppCompatActivity {
         rollTwiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (customEditText.getText().toString().equals("")) {
+                if (customEditText.getText().toString().equals("0")) {
                     switch (diceSpinner.getSelectedItemPosition()) {
                         case FOUR_SIDE:
                             Dice d4 = new Dice(4);
@@ -116,7 +118,9 @@ public class HomeActivity extends AppCompatActivity {
                     sharedPref.storeMyVal(HomeActivity.this, sharedPref.getMyVal(HomeActivity.this) + "," + customEditText.getText().toString());
 
                     Log.d("shared_value", sharedPref.getMyVal(HomeActivity.this));
+                    sharedPref.storeCurrentData(HomeActivity.this,Integer.parseInt(customEditText.getText().toString()));
                     resultTv.setText(dCustom.rollDie() + "");
+                    secondResultTv.setText(dCustom.rollDie() + "");
                 }
             }
         });
@@ -124,7 +128,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (customEditText.getText().toString().equals("")) {
+                if (customEditText.getText().toString().equals("0")) {
                     switch (diceSpinner.getSelectedItemPosition()) {
                         case FOUR_SIDE:
                             Dice d4 = new Dice(4);
@@ -164,6 +168,7 @@ public class HomeActivity extends AppCompatActivity {
                 } else {
                     Dice dCustom = new Dice(Integer.parseInt(customEditText.getText().toString()));
                     sharedPref.storeMyVal(HomeActivity.this, sharedPref.getMyVal(HomeActivity.this) + "," + customEditText.getText().toString());
+                    sharedPref.storeCurrentData(HomeActivity.this,Integer.parseInt(customEditText.getText().toString()));
 
                     Log.d("shared_value", sharedPref.getMyVal(HomeActivity.this));
                     resultTv.setText(dCustom.rollDie() + "");
@@ -171,6 +176,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void onStartUp() {
+
+        customEditText.setText(""+sharedPref.getCurrentdata(HomeActivity.this));
     }
 
     private void initComponents() {
